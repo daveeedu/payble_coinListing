@@ -1,5 +1,4 @@
 import React from 'react';
-import { AiFillCaretDown, AiFillCaretUp } from 'react-icons/ai';
 
 export const DynamicIcon = ({ percentage, threshold, greenIcon, redIcon }) => {
   const isGreen = percentage >= threshold;

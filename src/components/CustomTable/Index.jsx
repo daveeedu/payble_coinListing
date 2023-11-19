@@ -1,5 +1,4 @@
 import { useLayoutEffect, useRef, useState } from 'react';
-import { ILogo } from '../../utils/icons.utils';
 import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 import { getAmount, getColorClass } from '../../utils/helper';
 import { MdOutlineStarPurple500, MdOutlineStarOutline } from "react-icons/md"
@@ -116,7 +115,7 @@ export default function CustomTable({ coins }) {
                         <div className={`flex ${coins.current_price >= 0.9 ? 'justify-between' : 'justify-end'}`}>
                           {coins.current_price >= 0.9 ? (
                             <span className='border-2 border-[#92f192] text-[#92f192] rounded-lg px-2 py-0.9 mr-6'>Buy</span>
-                            ) : (" ")}
+                          ) : (" ")}
                           <span>${getAmount(coins.current_price)}</span>
                         </div>
                       </td>

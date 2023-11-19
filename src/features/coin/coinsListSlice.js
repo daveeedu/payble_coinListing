@@ -3,13 +3,9 @@ import axios from "axios";
 
 export const fetchCoins = createAsyncThunk('coins/fetchCoins', async (_, thunkAPI) => {
   try {
-    const state = thunkAPI?.getState()?.coin;
-    console.log(state);
-
     const response = await axios.get(
       "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&category=stablecoins&order=market_cap_desc&per_page=100&page=1&sparkline=false"
     );
-    console.log(response)
 
     return response;
   } catch (error) {

@@ -35,10 +35,6 @@ const LogIn = () => {
                             <form
                                 noValidate
                                 component="form"
-                            // onSubmit={formik.handleSubmit}
-                            // className={`w-full fadeLeft relative ${move ? "z-0" : "z-40"
-                            //     }`}
-                            // style={{ left: move && "-30%", opacity: move ? 0 : 1 }}
                             >
                                 
                                 {showRecoveryEmailField ? (
@@ -55,7 +51,6 @@ const LogIn = () => {
                                          Email Address
                                      </label>
                                      <input
-                                         // value={formik.values.email}
                                          type="email"
                                          name="email"
                                          id="email"
@@ -63,22 +58,6 @@ const LogIn = () => {
                                          className="block w-full bg-[#fffefe]  border-0 rounded-[10px] py-4 pl-5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-3 sm:text-sm sm:leading-6"
                                          placeholder="E.g johndoe@hotmail.com"
                                          required
-                                     // onChange={formik.handleChange}
-                                     // onBlur={formik.handleBlur}
-                                     // onFocus={formik.handleFocus}
-                                     // error={formik.errors.email && formik.touched.email}
-                                     // helperText={
-                                     //     formik.errors.email && formik.touched.email
-                                     //         ? formik.errors.email
-                                     //         : ""
-                                     // }
-                                     // InputProps={{
-                                     //     startAdornment: (
-                                     //         <InputAdornment position="start">
-                                     //             <EmailIcon />
-                                     //         </InputAdornment>
-                                     //     ),
-                                     // }}
                                      />
                                  </div>
                                  <div className="flex items-center justify-end mt-2">
@@ -106,7 +85,6 @@ const LogIn = () => {
                                             Email Address
                                         </label>
                                         <input
-                                            // value={formik.values.email}
                                             type="email"
                                             name="email"
                                             id="email"
@@ -114,22 +92,6 @@ const LogIn = () => {
                                             className="block w-full bg-[#fffefe]  border-0 rounded-[10px] py-4 pl-5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-3 sm:text-sm sm:leading-6"
                                             placeholder="E.g johndoe@hotmail.com"
                                             required
-                                        // onChange={formik.handleChange}
-                                        // onBlur={formik.handleBlur}
-                                        // onFocus={formik.handleFocus}
-                                        // error={formik.errors.email && formik.touched.email}
-                                        // helperText={
-                                        //     formik.errors.email && formik.touched.email
-                                        //         ? formik.errors.email
-                                        //         : ""
-                                        // }
-                                        // InputProps={{
-                                        //     startAdornment: (
-                                        //         <InputAdornment position="start">
-                                        //             <EmailIcon />
-                                        //         </InputAdornment>
-                                        //     ),
-                                        // }}
                                         />
                                     </div>
                                     <div className="mt-8">
@@ -141,31 +103,12 @@ const LogIn = () => {
                                         </label>
                                         <input
                                             sx={{ ".MuiInputBase-root": { borderRadius: "10px" } }}
-                                            // value={formik.values.password}
                                             type="password"
                                             name="password"
                                             id="password"
                                             className="block w-full bg-[#F8FAFC] border-0 rounded-[10px] py-4 pl-5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-3  sm:text-sm sm:leading-6"
                                             placeholder="*****"
                                             required
-                                        // onChange={formik.handleChange}
-                                        // onBlur={formik.handleBlur}
-                                        // onFocus={formik.handleFocus}
-                                        // error={
-                                        //     formik.errors.password && formik.touched.password
-                                        // }
-                                        // helperText={
-                                        //     formik.errors.password && formik.touched.password
-                                        //         ? formik.errors.password
-                                        //         : ""
-                                        // }
-                                        // InputProps={{
-                                        //     startAdornment: (
-                                        //         <InputAdornment position="start">
-                                        //             <LockIcon />
-                                        //         </InputAdornment>
-                                        //     ),
-                                        // }}
                                         />
                                     </div>
                                     <div className="flex items-center justify-between mt-2">
@@ -199,16 +142,6 @@ const LogIn = () => {
                                     to="/coinList">
                                     <button
                                         fullWidth
-                                        // {...{
-                                        //     loading,
-                                        //     sx: {
-                                        //         textTransform: "capitalize",
-                                        //         my: "25px",
-                                        //         bgcolor: "#D70900",
-                                        //         borderRadius: "10px",
-                                        //         fontSize: "18px",
-                                        //     },
-                                        // }}
                                         type="submit"
                                         className="2xl:my-10 my-5 bg-[#376A7C] text-white "
                                     >

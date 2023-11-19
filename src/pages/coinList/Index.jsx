@@ -11,14 +11,12 @@ const CoinList = () => {
     pagination,
   } = useSelector(getCoinData),
   dispatch = useDispatch();
-  console.log(coins)
 
   
 
   useEffect(() => {
     let cb = () => {};
     if (pagination?.search) {
-      // dispatch(setPagination({ page: 1 }));
       cb = setTimeout(
         (_) => (async () => await dispatch(fetchCoins()))(),
         700
