@@ -2,21 +2,17 @@ import React, {useEffect} from 'react'
 import NavBar from '../../components/navBar/Index'
 import CustomTable from '../../components/CustomTable/Index';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCoins, getCoinData } from '../../features/coin/coinsListSlice';
+import { fetchCoins, setPagination, selectCoins, selectPagination } from '../../features/coin/coinsListSlice';
 
 const CoinList = () => {
-  const {
-    coins,
-    loading,
-    pagination,
-  } = useSelector(getCoinData),
-  dispatch = useDispatch();
-
-  
+const {coins} = useSelector(selectCoins),
+pagination = useSelector(selectPagination),
+dispatch = useDispatch();
 
   useEffect(() => {
     let cb = () => {};
-    if (pagination?.search) {
+    if (pagination?.current_page) {
+      dispatch(setPagination({ page: 1 }));
       cb = setTimeout(
         (_) => (async () => await dispatch(fetchCoins()))(),
         700
@@ -26,13 +22,18 @@ const CoinList = () => {
     return () => {
       clearTimeout(cb);
     };
-  }, []);
+  }, [dispatch, pagination.current_page]);
 
 
   return (
     <div className=''>
         <NavBar />
-        <CustomTable coins={coins}/>
+        <CustomTable 
+        {...{
+          pagination,
+          setPagination,
+          coins
+        }}/>
     </div>
   )
 }

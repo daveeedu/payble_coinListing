@@ -3,30 +3,34 @@ import { AiFillCaretDown, AiFillCaretUp } from "react-icons/ai";
 import { getAmount, getColorClass } from '../../utils/helper';
 import { MdOutlineStarPurple500, MdOutlineStarOutline } from "react-icons/md"
 import { DynamicIcon } from '../customIcon/DynamicIcon';
+import Pagination from './pagination/Pagination';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function CustomTable({ coins }) {
-  console.log(coins)
+export default function CustomTable({ coins, pagination, setPagination }) {
   const checkbox = useRef()
   const [checked, setChecked] = useState(false)
   const [indeterminate, setIndeterminate] = useState(false)
-  const [selectedPeople, setSelectedPeople] = useState([])
+  const [selectedCoin, setSelectedCoin] = useState([])
 
   useLayoutEffect(() => {
-    const isIndeterminate = selectedPeople.length > 0 && selectedPeople.length < coins.length
-    setChecked(selectedPeople.length === coins.length)
+    const isIndeterminate = selectedCoin.length > 0 && selectedCoin.length < coins.length
+    setChecked(selectedCoin.length === coins.length)
     setIndeterminate(isIndeterminate)
     checkbox.current.indeterminate = isIndeterminate
-  }, [selectedPeople])
+  }, [selectedCoin])
 
   function toggleAll() {
-    setSelectedPeople(checked || indeterminate ? [] : coins)
+    setSelectedCoin(checked || indeterminate ? [] : coins)
     setChecked(!checked && !indeterminate)
     setIndeterminate(false)
   }
+
+  const startIndex = (pagination.page - 1) * pagination.pageSize;
+  const endIndex = startIndex + pagination.pageSize;
+  const visibleCoins = coins.slice(startIndex, endIndex);
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
@@ -81,20 +85,20 @@ export default function CustomTable({ coins }) {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {coins.map((coins, index) => (
-                    <tr key={index} className={selectedPeople.includes(coins) ? 'bg-gray-50' : undefined}>
+                  {visibleCoins.map((coins, index) => (
+                    <tr key={index} className={selectedCoin.includes(coins) ? 'bg-gray-50' : undefined}>
                       <td className="relative px-7 sm:w-12 sm:px-6">
                         <div
                           className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded cursor-pointer"
                           onClick={() =>
-                            setSelectedPeople(
-                              selectedPeople.includes(coins)
-                                ? selectedPeople.filter((p) => p !== coins)
-                                : [...selectedPeople, coins]
+                            setSelectedCoin(
+                              selectedCoin.includes(coins)
+                                ? selectedCoin.filter((p) => p !== coins)
+                                : [...selectedCoin, coins]
                             )
                           }
                         >
-                          {selectedPeople.includes(coins) ? (
+                          {selectedCoin.includes(coins) ? (
                             <MdOutlineStarPurple500 className="text-gray-600" />
                           ) : (
                             <MdOutlineStarOutline className="text-gray-400" />
@@ -104,10 +108,10 @@ export default function CustomTable({ coins }) {
                       <td
                         className={classNames(
                           'whitespace-nowrap py-4 text-sm font-medium',
-                          selectedPeople.includes(coins) ? 'text-gray-600' : 'text-gray-900'
+                          selectedCoin.includes(coins) ? 'text-gray-600' : 'text-gray-900'
                         )}
                       >
-                        {index + 1}
+                        {startIndex + index + 1}
                       </td>
                       <td className="whitespace-nowrap  py-8 text-sm text-gray-500 text-start flex "><img src={coins?.image} alt='' width={25} height={25} className='mr-2' /> <span className='mt-1'>{coins?.name}</span></td>
 
@@ -161,6 +165,36 @@ export default function CustomTable({ coins }) {
           </div>
         </div>
       </div>
+      {pagination.total ? (
+        <div
+          className={`w-full mb-10 mt-3 px-4 py-3 rounded-b-lg bg-[#F9F9F9] `}
+        >
+          <div className="md:flex mr-3 md:justify-between text-center md:items-center text-[#9A9EA5]">
+            <p className="text-sm" style={{ color: "var(--C_blue_light)" }}>
+              Showing{" "}
+              <span className="text-[#52525B]">
+                {Math.min(pagination.length, pagination.total) ||
+                  pagination.pageSize}
+              </span>{" "}
+              {pagination.total > 1 ? "results" : "result"} of{" "}
+              <span className="text-[#52525B]"> {pagination.total}</span>{" "}
+              {pagination.total > 1 ? "records" : "record"}
+            </p>
+
+            <Pagination
+              {...{
+                pagination,
+                page: pagination.page - 1,
+                itemsPerPage: pagination.pageSize,
+                setPagination,
+                total: pagination.total,
+              }}
+            />
+          </div>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   )
 }
