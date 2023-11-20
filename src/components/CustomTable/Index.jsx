@@ -173,8 +173,7 @@ export default function CustomTable({ coins, pagination, setPagination }) {
             <p className="text-sm" style={{ color: "var(--C_blue_light)" }}>
               Showing{" "}
               <span className="text-[#52525B]">
-                {Math.min(pagination.length, pagination.total) ||
-                  pagination.pageSize}
+                {endIndex}
               </span>{" "}
               {pagination.total > 1 ? "results" : "result"} of{" "}
               <span className="text-[#52525B]"> {pagination.total}</span>{" "}
