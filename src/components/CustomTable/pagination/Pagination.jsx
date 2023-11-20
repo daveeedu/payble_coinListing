@@ -22,12 +22,12 @@ function PaginatedItems({ pagination, total, page, setPagination, itemsPerPage }
 	return (
 		<>
 			<ReactPaginate
-				nextLabel={<AiOutlineArrowRight size={"25px"} className="cursor-pointer"/>}
+				nextLabel={<AiOutlineArrowRight size={"20px"} className="cursor-pointer"/>}
 				onPageChange={handlePageClick}
-				pageRangeDisplayed={3}
+				pageRangeDisplayed={1}
 				marginPagesDisplayed={2}
 				pageCount={pageCount}
-				previousLabel={<AiOutlineArrowLeft size={"25px"} className="cursor-pointer"/>}
+				previousLabel={<AiOutlineArrowLeft size={"20px"} className="cursor-pointer"/>}
 				pageClassName="page-item"
 				pageLinkClassName="page-link"
 				previousClassName="prev-item"
