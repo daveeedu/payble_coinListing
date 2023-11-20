@@ -19,9 +19,11 @@ React.js & vite, Tailwind css, Redux toolkit, React icons, headlessui,
 
 ## To Start this project localy, execute this commands in terminal
 
-- Clone repo: git clone https://github.com/daveeedu/payble_coinListing.git
-- install dependencies: npm install
-- Start developement server: npm run dev
+- Clone repo: `git clone https://github.com/daveeedu/payble_coinListing.git`
+- List directories: `ls`
+- To move to project directory: `cd payble_coinListing`
+- To Install dependencies: `npm install`
+- Start developement server: `npm run dev`
 
 ## N/B: 
 Use latest version of node js.
