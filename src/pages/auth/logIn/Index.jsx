@@ -87,7 +87,7 @@ const LogIn = () => {
                                                 <ErrorMessage
                                                     name="recoveryEmail"
                                                     component="div"
-                                                    className="text-red-500 bg-[#fffefe] rounded-lg"
+                                                    className="text-red-500 text-start"
                                                 />
                                             </div>
                                             <div className="flex items-center justify-end mt-2">
@@ -123,7 +123,7 @@ const LogIn = () => {
                                                 <ErrorMessage
                                                     name="email"
                                                     component="div"
-                                                    className="text-red-500 bg-[#fffefe] rounded-lg"
+                                                    className="text-red-500 text-start"
                                                 />
                                             </div>
                                             <div className="mt-8">
@@ -142,7 +142,7 @@ const LogIn = () => {
                                                 <ErrorMessage
                                                     name="password"
                                                     component="div"
-                                                    className="text-red-500 bg-[#fffefe] rounded-lg"
+                                                    className="text-red-500 text-start"
                                                 />
                                             </div>
                                             <div className="flex items-center justify-between mt-2">
