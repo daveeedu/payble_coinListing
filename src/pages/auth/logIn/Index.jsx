@@ -1,18 +1,43 @@
 import React, { useState } from 'react'
 import { ILogo } from '../../../utils/icons.utils'
-import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+import { Formik, Field, Form, ErrorMessage, useFormik } from 'formik';
+import { userLogin, userForgotPassword } from '../../../utils/validator';
+import { asyncLogin, getAuthData } from '../../../features/auth/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 const LogIn = () => {
+    const dispatch = useDispatch(),
+        navigate = useNavigate(),
+        { loginPayload, forgotPassPayload } = useSelector(getAuthData);
     const [showRecoveryEmailField, setShowRecoveryEmailField] = useState(false);
     const handleForgotPasswordClick = () => {
         // Show the recovery email field when "Forgot your password?" is clicked
         setShowRecoveryEmailField(true);
-      };
-    
-      const handleGoBackClick = () => {
+    };
+
+    const handleGoBackClick = () => {
         // Hide the recovery email field and go back to the login and password fields
         setShowRecoveryEmailField(false);
-      };
+    };
+
+
+    const handleSubmit = async (values) => {
+        try {
+            const res = await dispatch(
+                asyncLogin({ ...values, email: values?.email?.trim() })
+            ).unwrap();
+            if (showRecoveryEmailField) {
+                setShowRecoveryEmailField(false)
+            } else {
+                navigate('/coinList');
+            }
+        } catch (err) {
+            console.error(err);
+            Alert({ type: 'error', message: 'Something went wrong' });
+        }
+    }
+
     return (
         <div className="relative h-screen w-screen rounded-lg bg-cover  bg-no-repeat bg-[url(./assets/payble_bg.jpg)]">
             <div className="absolute opacity-90 md:rounded-lg 2xl:inset-10 md:inset-4 inset-0 bg-gradient-to-t from-black via-black to-black">
@@ -32,123 +57,128 @@ const LogIn = () => {
                     </div>
                     <div className="bg-[#b2c0ca] mb-5 px-[1.5em] 2xl:py-14 lg:py-8 py-3 m-auto rounded-lg lg:w-[500px] md:mx-14 mx-6 lg:mx-0">
                         <div className="w-full relative h-full">
-                            <form
-                                noValidate
-                                component="form"
+                            <Formik
+                                initialValues={showRecoveryEmailField ? forgotPassPayload : loginPayload}
+                                validationSchema={showRecoveryEmailField ? userForgotPassword : userLogin}
+                                onSubmit={handleSubmit}
                             >
-                                
-                                {showRecoveryEmailField ? (
-                                    <div className='py-10'>
-                                        <h1 className="text-3xl font-bold">Reset Password</h1>
-                                <span className="text-[400] text-[12px] text-black">
-                                    Enter your recovery email.
-                                </span>
-                                    <div className="mt-8">
-                                     <label
-                                         htmlFor="email"
-                                         className="block mb-2 text-[16px] font-medium  text-black text-start"
-                                     >
-                                         Email Address
-                                     </label>
-                                     <input
-                                         type="email"
-                                         name="email"
-                                         id="email"
-                                         sx={{ ".MuiInputBase-root": { borderRadius: "10px" } }}
-                                         className="block w-full bg-[#fffefe]  border-0 rounded-[10px] py-4 pl-5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-3 sm:text-sm sm:leading-6"
-                                         placeholder="E.g johndoe@hotmail.com"
-                                         required
-                                     />
-                                 </div>
-                                 <div className="flex items-center justify-end mt-2">
-                                     
-                                     <div className="text-sm leading-5 cursor-pointer">
-                                         <p onClick={handleGoBackClick}
-                                             className="font-medium text-gray-600 hover:text-gray-500 focus:outline-none focus:underline transition ease-in-out duration-150"
-                                         >
-                                             Go back to Log in
-                                         </p>
-                                     </div>
-                                 </div>
-                                </div>
-                                ): (
-                                    <div >
-                                        <h1 className="text-3xl font-bold">Login</h1>
-                                <span className="text-[400] text-[12px] text-black">
-                                    Log in using your email and password.
-                                </span>
-                                    <div className="mt-8">
-                                        <label
-                                            htmlFor="email"
-                                            className="block mb-2 text-[16px] font-medium  text-black text-start"
-                                        >
-                                            Email Address
-                                        </label>
-                                        <input
-                                            type="email"
-                                            name="email"
-                                            id="email"
-                                            sx={{ ".MuiInputBase-root": { borderRadius: "10px" } }}
-                                            className="block w-full bg-[#fffefe]  border-0 rounded-[10px] py-4 pl-5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-3 sm:text-sm sm:leading-6"
-                                            placeholder="E.g johndoe@hotmail.com"
-                                            required
-                                        />
-                                    </div>
-                                    <div className="mt-8">
-                                        <label
-                                            htmlFor="password"
-                                            className="block mb-2 text-[16px] font-medium  text-black text-start"
-                                        >
-                                            Password
-                                        </label>
-                                        <input
-                                            sx={{ ".MuiInputBase-root": { borderRadius: "10px" } }}
-                                            type="password"
-                                            name="password"
-                                            id="password"
-                                            className="block w-full bg-[#F8FAFC] border-0 rounded-[10px] py-4 pl-5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-3  sm:text-sm sm:leading-6"
-                                            placeholder="*****"
-                                            required
-                                        />
-                                    </div>
-                                    <div className="flex items-center justify-between mt-2">
-                                        <div className="flex items-center">
-                                            <input
-                                                type="checkbox"
-                                                id="remember"
-                                                name="remember"
-                                                className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                                            />
-                                            <label
-                                                htmlFor="remember"
-                                                className="ml-2 block text-sm leading-5 text-gray-900"
-                                            >
-                                                Remember me
-                                            </label>
+                                <Form
+                                >
+
+                                    {showRecoveryEmailField ? (
+                                        <div className='py-10'>
+                                            <h1 className="text-3xl font-bold">Reset Password</h1>
+                                            <span className="text-[400] text-[12px] text-black">
+                                                Enter your recovery email.
+                                            </span>
+                                            <div className="mt-8">
+                                                <label
+                                                    htmlFor="recoveryEmail"
+                                                    className="block mb-2 text-[16px] font-medium  text-black text-start"
+                                                >
+                                                    Email Address
+                                                </label>
+                                                <Field
+                                                    type="text"
+                                                    name="recoveryEmail"
+                                                    placeholder="E.g johndoe@hotmail.com"
+                                                    className="block w-full bg-[#fffefe]  border-0 rounded-[10px] py-4 pl-5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-3 sm:text-sm sm:leading-6"
+                                                />
+                                                <ErrorMessage
+                                                    name="recoveryEmail"
+                                                    component="div"
+                                                    className="text-red-500 bg-[#fffefe] rounded-lg"
+                                                />
+                                            </div>
+                                            <div className="flex items-center justify-end mt-2">
+
+                                                <div className="text-sm leading-5 cursor-pointer">
+                                                    <p onClick={handleGoBackClick}
+                                                        className="font-medium text-gray-600 hover:text-gray-500 focus:outline-none focus:underline transition ease-in-out duration-150"
+                                                    >
+                                                        Go back to Log in
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className="text-sm leading-5 cursor-pointer">
-                                            <p onClick={handleForgotPasswordClick}
-                                                className="font-medium text-gray-600 hover:text-gray-500 focus:outline-none focus:underline transition ease-in-out duration-150"
-                                            >
-                                                Forgot your password?
-                                            </p>
+                                    ) : (
+                                        <div >
+                                            <h1 className="text-3xl font-bold">Login</h1>
+                                            <span className="text-[400] text-[12px] text-black">
+                                                Log in using your email and password.
+                                            </span>
+                                            <div className="mt-8">
+                                                <label
+                                                    htmlFor="email"
+                                                    className="block mb-2 text-[16px] font-medium  text-black text-start"
+                                                >
+                                                    Email Address
+                                                </label>
+                                                <Field
+                                                    type="text"
+                                                    name="email"
+                                                    placeholder="E.g johndoe@hotmail.com"
+                                                    className="block w-full bg-[#fffefe]  border-0 rounded-[10px] py-4 pl-5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-3 sm:text-sm sm:leading-6"
+                                                />
+                                                <ErrorMessage
+                                                    name="email"
+                                                    component="div"
+                                                    className="text-red-500 bg-[#fffefe] rounded-lg"
+                                                />
+                                            </div>
+                                            <div className="mt-8">
+                                                <label
+                                                    htmlFor="password"
+                                                    className="block mb-2 text-[16px] font-medium  text-black text-start"
+                                                >
+                                                    Password
+                                                </label>
+                                                <Field
+                                                    type="password"
+                                                    name="password"
+                                                    placeholder="*****"
+                                                    className="block w-full bg-[#fffefe]  border-0 rounded-[10px] py-4 pl-5 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-3 sm:text-sm sm:leading-6"
+                                                />
+                                                <ErrorMessage
+                                                    name="password"
+                                                    component="div"
+                                                    className="text-red-500 bg-[#fffefe] rounded-lg"
+                                                />
+                                            </div>
+                                            <div className="flex items-center justify-between mt-2">
+                                                <div className="flex items-center">
+                                                    <input
+                                                        type="checkbox"
+                                                        id="remember"
+                                                        name="remember"
+                                                        className="h-4 w-4 text-indigo-600 border-gray-300 rounded"
+                                                    />
+                                                    <label
+                                                        htmlFor="remember"
+                                                        className="ml-2 block text-sm leading-5 text-gray-900"
+                                                    >
+                                                        Remember me
+                                                    </label>
+                                                </div>
+                                                <div className="text-sm leading-5 cursor-pointer">
+                                                    <p onClick={handleForgotPasswordClick}
+                                                        className="font-medium text-gray-600 hover:text-gray-500 focus:outline-none focus:underline transition ease-in-out duration-150"
+                                                    >
+                                                        Forgot your password?
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    </div>
-                                    
-                                )}
-                               
-                                <Link
-                                    to="/coinList">
+
+                                    )}
                                     <button
-                                        fullWidth
                                         type="submit"
                                         className="2xl:my-10 my-5 bg-[#376A7C] text-white "
                                     >
                                         Submit
                                     </button>
-                                </Link>
-                            </form>
+                                </Form>
+                            </Formik>
                         </div>
                     </div>
                 </div>
